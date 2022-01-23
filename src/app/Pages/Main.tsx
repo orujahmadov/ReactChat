@@ -1,20 +1,23 @@
-import moment from 'moment';
 import styled from 'styled-components';
 
 import Chat from "./components/Chat";
-import { Messages } from './data/messages';
+import { shallowEqual, useSelector } from 'react-redux';
+import { RootState } from './redux/store';
 
 const MainContentWrapper = styled.div`
     display: flex;
 `;
 
 const Main = () => {
+    const selectMessages = (state: RootState) => state.messages;
+    const messagesReducer = useSelector(selectMessages, shallowEqual);
+
     return (
         <MainContentWrapper>
             <Chat
                     avatar={"../app/user.png"}
                     username={'Namig'}
-                    messages={Messages}
+                    messages={messagesReducer.messages}
                 />
         </MainContentWrapper>
     )

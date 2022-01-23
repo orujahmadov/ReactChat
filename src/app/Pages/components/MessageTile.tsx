@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import moment from 'moment';
+import { Message } from "../redux/reducer";
 
 const MessageWrapper = styled.div`
     background-color: rgb(237,237,237);
@@ -24,13 +25,7 @@ const MessageWrapper = styled.div`
     }
 `;
 
-export interface MessageProp {
-    body: string;
-    timestamp: string;
-    username: string;
-}
-
-const Message = (props: MessageProp) => {
+const MessageTile = (props: Message) => {
     const { body, timestamp, username } = props;
     const myusername = "1";
 
@@ -42,4 +37,4 @@ const Message = (props: MessageProp) => {
     )
 }
 
-export default Message;
+export default MessageTile;

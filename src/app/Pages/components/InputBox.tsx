@@ -40,6 +40,12 @@ const InputBox = (props: MessageProp) => {
     const [text, setText] = React.useState('');
 
     const { placeholder } = props;
+    const { handleSend } = props;
+
+    const onSendClick = React.useCallback((e) => {
+        setText('');
+        handleSend(text.trim());
+    }, [text]);
 
     return (
         <InputBoxWrapper>
@@ -49,7 +55,11 @@ const InputBox = (props: MessageProp) => {
                 placeholder={placeholder || "Type a message..."} 
                 onChange={(e) => setText(e.target.value)}
             />
-            <StyledButton disabled={!text.trim()} className="messaget-timestamp">Send</StyledButton>
+            <StyledButton
+                onClick={onSendClick} 
+                disabled={!text.trim()} 
+                className="messaget-timestamp">Send
+            </StyledButton>
         </InputBoxWrapper>
     )
 }

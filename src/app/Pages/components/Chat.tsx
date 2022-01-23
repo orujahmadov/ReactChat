@@ -1,14 +1,17 @@
-import Message from './Message';
+import MessageTile from './MessageTile';
 import InputBox from './InputBox';
 
-import { MessageProp } from './Message';
+import { Message } from '../redux/reducer';
 import styled from 'styled-components';
 import moment from 'moment';
+import { postMessage } from '../redux/actions';
+import { useDispatch } from 'react-redux';
+import { useEffect, useRef } from 'react';
 
 interface Props {
     username: string;
     avatar: string;
-    messages: MessageProp[];
+    messages: Message[];
 }
 
 const StyledHeader = styled.div`
@@ -44,6 +47,15 @@ const MessagesBox = styled.div`
 const Chat = (props: Props) => {
     const { username, avatar, messages } = props;
 
+    const dispatch = useDispatch();
+    const bottomDivRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (bottomDivRef.current) {
+            bottomDivRef.current.scrollIntoView();
+        }
+    }, [messages]);
+
     messages.sort((m1, m2) => {
         const time1 = moment(m1.timestamp).format("x");
         const time2 = moment(m2.timestamp).format("x");
@@ -60,17 +72,22 @@ const Chat = (props: Props) => {
         <>
             <StyledHeader><img src={avatar} />{username}</StyledHeader>
             <MessagesBox>
-                {messages.map(message => {
-                    return (
-                        <Message 
-                            body={message.body}
-                            timestamp={message.timestamp}
-                            username={message.username}
-                        />
-                    )
-                })}
+                {
+                    messages.map(message => {
+                        return (
+                            <MessageTile 
+                                key={message.id}
+                                id={message.id}
+                                body={message.body}
+                                timestamp={message.timestamp}
+                                username={message.username}
+                            />
+                        )
+                    })
+                }
+                <div ref={bottomDivRef}></div>
             </MessagesBox>
-            <InputBox handleSend={(text) => console.log("Message received ", text)} />
+            <InputBox handleSend={(text) => dispatch(postMessage({ username: '1', id: 999, body: text, timestamp: '2022-10-02'}))} />
         </>
     )
 }
