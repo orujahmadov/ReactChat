@@ -12,7 +12,7 @@ const MessageWrapper = styled.div`
     font-size: 14px;
     font-weight: 400;
     text-align: left;
-    width: 40%;
+    width: 45%;
     min-width: 250px;
     overflow-wrap: break-word;
 
