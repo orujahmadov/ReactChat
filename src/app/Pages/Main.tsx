@@ -16,10 +16,10 @@ const Main = () => {
     return (
         <MainContentWrapper>
             <Chat
-                    avatar={userlogo}
-                    username={'test2'}
-                    messages={messagesReducer.messages}
-                />
+                avatar={userlogo}
+                username={'test2'}
+                messages={messagesReducer.messages}
+            />
         </MainContentWrapper>
     )
 }
