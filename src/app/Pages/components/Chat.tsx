@@ -8,8 +8,6 @@ import MessageTile from './MessageTile';
 import InputBox from './InputBox';
 import { Message } from '../redux/reducer';
 import { postMessage } from '../redux/actions';
-
-import userlogo from './user.png';
 import { myusername } from '../../config';
 
 interface Props {
@@ -83,11 +81,10 @@ const Chat = (props: Props) => {
     });
 
     const lastMessage = messages.filter(message => message.username != myusername).slice(-1)[0];
-    console.log('LAST MESSAGE', lastMessage);
 
     return (
         <>
-            <StyledHeader><img style={{verticalAlign: 'middle'}} width={'30px'} src={userlogo} />&nbsp;<span>{username}</span></StyledHeader>
+            <StyledHeader><img style={{verticalAlign: 'middle'}} width={'30px'} src={avatar} />&nbsp;<span>{username}</span></StyledHeader>
             <MessagesBox>
                 {
                     messages.map(message => {
@@ -95,7 +92,7 @@ const Chat = (props: Props) => {
                             <MessageTile 
                                 key={message.id}
                                 message={message}
-                                avatar={lastMessage.id === message.id ? userlogo : null}
+                                avatar={lastMessage.id === message.id ? avatar : null}
                             />
                         )
                     })
