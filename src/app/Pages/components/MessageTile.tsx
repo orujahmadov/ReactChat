@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import moment from 'moment';
 import { Message } from "../redux/reducer";
+import { myusername } from '../../config';
 
 const MessageWrapper = styled.div`
     background-color: rgb(237,237,237);
@@ -11,7 +12,6 @@ const MessageWrapper = styled.div`
     font-size: 14px;
     font-weight: 400;
     text-align: left;
-    width: fit-content;
     width: 40%;
     min-width: 250px;
     overflow-wrap: break-word;
@@ -25,14 +25,24 @@ const MessageWrapper = styled.div`
     }
 `;
 
-const MessageTile = (props: Message) => {
-    const { body, timestamp, username } = props;
-    const myusername = "1";
+const StyledAvatar = styled.img`
+    position: absolute;
+    left: 20px;
+`;
+
+interface MessageTileProp {
+    message: Message;
+    avatar?: any;
+}
+
+const MessageTile = (props: MessageTileProp) => {
+    const { message, avatar } = props;
 
     return (
-        <MessageWrapper className={myusername === username ? 'messages-on-right' : ''}>
-            {body}
-            <div className="messaget-timestamp">{moment(timestamp).format('MMMM Do')}</div>
+        <MessageWrapper className={myusername === message.username ? 'messages-on-right' : ''}>
+            {avatar && <StyledAvatar width={'25px'} src={avatar} />}
+            {message.body}
+            <div className="messaget-timestamp">{moment(message.timestamp).format('MMMM Do')}</div>
         </MessageWrapper>
     )
 }

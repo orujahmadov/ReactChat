@@ -4,7 +4,7 @@ import { Messages } from '../data/messages';
 
 
 export interface Message {
-    id: number;
+    id: string;
     body: string;
     timestamp: string;
     username: string;
@@ -12,12 +12,10 @@ export interface Message {
 
 interface RootState {
     messages: Message[];
-    kelesov?: number;
 }
 
 const initialState: RootState = {
-    messages: Messages,
-    kelesov: 1993
+    messages: Messages
 }
 
 const messagesReducer =  (state = initialState, action: any) => {

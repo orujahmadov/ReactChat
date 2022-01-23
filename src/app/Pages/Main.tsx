@@ -16,7 +16,7 @@ const Main = () => {
         <MainContentWrapper>
             <Chat
                     avatar={"../app/user.png"}
-                    username={'Namig'}
+                    username={'test2'}
                     messages={messagesReducer.messages}
                 />
         </MainContentWrapper>

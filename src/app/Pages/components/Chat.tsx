@@ -1,12 +1,16 @@
-import MessageTile from './MessageTile';
-import InputBox from './InputBox';
-
-import { Message } from '../redux/reducer';
+import { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
-import { postMessage } from '../redux/actions';
 import { useDispatch } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
+import MessageTile from './MessageTile';
+import InputBox from './InputBox';
+import { Message } from '../redux/reducer';
+import { postMessage } from '../redux/actions';
+
+import userlogo from './user.png';
+import { myusername } from '../../config';
 
 interface Props {
     username: string;
@@ -35,8 +39,7 @@ const MessagesBox = styled.div`
     padding: 10px;
     min-height: calc(100vh - 140px);
     overflow: auto;
-    margin-top: 50px;
-    margin-bottom: 70px;
+    margin: 50px 40px 70px;
 
     .messages-on-right {
         margin-left: auto;
@@ -56,6 +59,17 @@ const Chat = (props: Props) => {
         }
     }, [messages]);
 
+    const handleSend = useCallback((text) => {
+        dispatch(postMessage(
+            { 
+                id: uuidv4(), 
+                username: myusername, 
+                body: text, 
+                timestamp: moment().toString()
+            }
+        ));
+    }, []);
+
     messages.sort((m1, m2) => {
         const time1 = moment(m1.timestamp).format("x");
         const time2 = moment(m2.timestamp).format("x");
@@ -68,26 +82,29 @@ const Chat = (props: Props) => {
         };
     });
 
+    const lastMessage = messages.filter(message => message.username != myusername).slice(-1)[0];
+    console.log('LAST MESSAGE', lastMessage);
+
     return (
         <>
-            <StyledHeader><img src={avatar} />{username}</StyledHeader>
+            <StyledHeader><img style={{verticalAlign: 'middle'}} width={'30px'} src={userlogo} />&nbsp;<span>{username}</span></StyledHeader>
             <MessagesBox>
                 {
                     messages.map(message => {
                         return (
                             <MessageTile 
                                 key={message.id}
-                                id={message.id}
-                                body={message.body}
-                                timestamp={message.timestamp}
-                                username={message.username}
+                                message={message}
+                                avatar={lastMessage.id === message.id ? userlogo : null}
                             />
                         )
                     })
                 }
                 <div ref={bottomDivRef}></div>
             </MessagesBox>
-            <InputBox handleSend={(text) => dispatch(postMessage({ username: '1', id: 999, body: text, timestamp: '2022-10-02'}))} />
+            <InputBox 
+                handleSend={handleSend}
+            />
         </>
     )
 }

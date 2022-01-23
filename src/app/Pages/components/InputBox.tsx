@@ -33,6 +33,7 @@ const StyledButton = styled.button`
 
     &:disabled {
         background-color: grey;
+        cursor: default;
     }
 `;
 
